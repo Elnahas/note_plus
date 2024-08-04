@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:note_plus/core/helpers/app_string.dart';
 
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
@@ -6,7 +7,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Flutter Demo',
+      title: AppString.appName,
       theme: ThemeData(
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
         useMaterial3: true,

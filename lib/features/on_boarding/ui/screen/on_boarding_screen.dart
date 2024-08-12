@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:note_plus/core/helpers/app_string.dart';
-import 'package:note_plus/core/theming/app_colors.dart';
 import '../../../../core/helpers/spacing.dart';
 import '../../../../core/theming/app_text_styles.dart';
 import '../../logic/on_boarding_cubit.dart';
@@ -16,7 +15,6 @@ class OnBoardingScreen extends StatelessWidget {
     final PageController controller = PageController();
 
     return Scaffold(
-      backgroundColor: AppColors.background,
       body: SafeArea(
         child: Container(
           padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 20),

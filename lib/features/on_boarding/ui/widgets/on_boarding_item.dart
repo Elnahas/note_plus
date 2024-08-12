@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-
 import '../../../../core/helpers/spacing.dart';
-import '../../../../core/theming/app_text_styles.dart';
 class OnBoardingItem extends StatelessWidget {
   const OnBoardingItem(
       {super.key,
@@ -33,12 +31,12 @@ class OnBoardingItem extends StatelessWidget {
           verticalSpace(75),
           Text(
             title,
-            style: AppTextStyle.font32WhiteBoldOpacity87,
+            style: Theme.of(context).textTheme.displayLarge,
           ),
           verticalSpace(30),
           Text(
             subTitle,
-            style: AppTextStyle.font16WhiteRegularOpacity87,
+            style: Theme.of(context).textTheme.displayMedium,
             textAlign: TextAlign.center,
           ),
         ],

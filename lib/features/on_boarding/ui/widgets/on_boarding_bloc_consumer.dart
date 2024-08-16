@@ -6,6 +6,8 @@ import 'package:note_plus/core/helpers/extentions.dart';
 import 'package:note_plus/features/on_boarding/logic/on_boarding_cubit.dart';
 
 import '../../../../core/helpers/app_string.dart';
+import '../../../../core/helpers/constants.dart';
+import '../../../../core/helpers/shared_pref_helper.dart';
 import '../../../../core/routing/routes.dart';
 import '../../../../core/theming/app_text_styles.dart';
 import '../../../../core/widgets/app_elevated_button.dart';
@@ -23,8 +25,9 @@ class OnBoardingBlocConsumer extends StatelessWidget {
     return BlocConsumer<OnBoardingCubit, OnBoardingState>(
       listenWhen: (previous, current) =>
           current is OnBoardingCompleted,
-      listener: (context, state) {
+      listener: (context, state) async {
         context.pushReplacementNamed(Routes.home);
+        await SharedPrefHelper.setData(SharedPrefKeys.hasSeenOnboarding, true);
       },
       buildWhen: (previous, current) =>
           current is OnBoardingPageChanged,

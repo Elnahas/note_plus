@@ -8,7 +8,7 @@ ThemeData appThemeLight = ThemeData(
   appBarTheme:
       AppBarTheme(backgroundColor: AppColors.background, centerTitle: true),
   textTheme: TextTheme(
-      displayLarge: AppTextStyle.font32WhiteBoldOpacity87,
+      displayLarge: AppTextStyle.font24WhiteBoldOpacity87,
       displayMedium: AppTextStyle.font16WhiteRegularOpacity87,
       displaySmall: AppTextStyle.font16WhiteRegularOpacity44),
   colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
@@ -22,7 +22,7 @@ ThemeData appThemeDark = ThemeData(
   appBarTheme:
       AppBarTheme(backgroundColor: AppColors.background, centerTitle: true),
   textTheme: TextTheme(
-      displayLarge: AppTextStyle.font32WhiteBoldOpacity87,
+      displayLarge: AppTextStyle.font24WhiteBoldOpacity87,
       displayMedium: AppTextStyle.font16WhiteRegularOpacity87,
       displaySmall: AppTextStyle.font16WhiteRegularOpacity44),
   colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),

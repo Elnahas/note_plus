@@ -34,13 +34,15 @@ class HomeScreen extends StatelessWidget {
               verticalSpace(10),
               DatePicker(
                 DateTime.now(),
-                height: 90.h,
+                height: 94.h,
+                width: 60.w,
+                
                 initialSelectedDate: DateTime.now(),
                 selectionColor: AppColors.primary,
                 selectedTextColor: Colors.white,
-                dayTextStyle: const TextStyle(color: Colors.white),
-                dateTextStyle: const TextStyle(color: Colors.white),
-                monthTextStyle: const TextStyle(color: Colors.white),
+                dayTextStyle: Theme.of(context).textTheme.displayMedium!,
+                dateTextStyle: Theme.of(context).textTheme.displayMedium!,
+                monthTextStyle:Theme.of(context).textTheme.displayMedium!,
                 onDateChange: (date) {
                   // New date selected
                   // setState(() {

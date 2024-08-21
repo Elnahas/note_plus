@@ -8,18 +8,13 @@ import 'package:note_plus/core/helpers/spacing.dart';
 import 'package:note_plus/core/theming/app_text_styles.dart';
 import '../../../../core/theming/app_colors.dart';
 import '../widgets/place_holder_empty_tasks.dart';
+import '../widgets/task_item_widget.dart';
 
 class HomeScreen extends StatelessWidget {
   const HomeScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
-    DateTime startTime = DateTime.now();
-    DateTime endTime = startTime.add(Duration(minutes: 15));
-
-    String formattedTime =
-        '${DateFormat('hh:mm a').format(startTime)} - ${DateFormat('hh:mm a').format(endTime)}';
-
     return Scaffold(
       floatingActionButton: FloatingActionButton(
           backgroundColor: AppColors.primary,
@@ -59,56 +54,7 @@ class HomeScreen extends StatelessWidget {
                 },
               ),
               verticalSpace(70),
-              Container(
-                padding: const EdgeInsets.all(8),
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(16),
-                  color:AppColors.red, 
-                ),
-                height: 128, 
-                child: Row(
-                  children: [
-                    Expanded(
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(
-                            "Task1",
-                            style: Theme.of(context).textTheme.displayLarge,
-                          ),
-                          ListTile(
-                            title: Text(
-                              formattedTime,
-                              style: Theme.of(context).textTheme.displayMedium,
-                            ),
-                            leading:
-                                const Icon(Icons.alarm, color: Colors.white),
-                            contentPadding: EdgeInsets.zero,
-                          ),
-                          Text(
-                            "Learn Dart",
-                            style: Theme.of(context).textTheme.displayMedium,
-                          ),
-                        ],
-                      ),
-                    ),
-                    VerticalDivider(
-                      endIndent: 20,
-                      indent: 20,
-                      color: AppColors.darkGray,
-                      thickness: 1,
-                      width: 20,
-                    ),
-                    RotatedBox(
-                      quarterTurns: 3,
-                      child: Text(
-                        "TODO",
-                        style: Theme.of(context).textTheme.displayMedium,
-                      ),
-                    ),
-                  ],
-                ),
-              )
+              TaskItemWidget()
               //const PlaceHolderEmptyTasks()
             ],
           ),
@@ -117,3 +63,4 @@ class HomeScreen extends StatelessWidget {
     );
   }
 }
+

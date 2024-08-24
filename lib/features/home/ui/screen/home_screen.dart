@@ -2,12 +2,11 @@ import 'package:date_picker_timeline/date_picker_timeline.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:intl/intl.dart';
-import 'package:note_plus/core/helpers/app_assets.dart';
 import 'package:note_plus/core/helpers/app_string.dart';
+import 'package:note_plus/core/helpers/extentions.dart';
 import 'package:note_plus/core/helpers/spacing.dart';
-import 'package:note_plus/core/theming/app_text_styles.dart';
+import 'package:note_plus/core/routing/routes.dart';
 import '../../../../core/theming/app_colors.dart';
-import '../widgets/place_holder_empty_tasks.dart';
 import '../widgets/task_item_widget.dart';
 
 class HomeScreen extends StatelessWidget {
@@ -19,7 +18,9 @@ class HomeScreen extends StatelessWidget {
       floatingActionButton: FloatingActionButton(
           backgroundColor: AppColors.primary,
           child: const Icon(Icons.add),
-          onPressed: () {}),
+          onPressed: () {
+            context.pushNamed(Routes.addTask);
+          }),
       body: SafeArea(
         child: Container(
           margin: const EdgeInsets.all(24),

@@ -5,26 +5,41 @@ import 'package:note_plus/core/theming/app_text_styles.dart';
 ThemeData appThemeLight = ThemeData(
   primaryColor: AppColors.primary,
   scaffoldBackgroundColor: AppColors.background,
-  appBarTheme:
-      AppBarTheme(backgroundColor: AppColors.background, centerTitle: true),
+  appBarTheme: AppBarTheme(
+    backgroundColor: AppColors.background,
+    centerTitle: true,
+    iconTheme: const IconThemeData(color: Colors.black), 
+  ),
   textTheme: TextTheme(
-      displayLarge: AppTextStyle.font24WhiteBoldOpacity87,
-      displayMedium: AppTextStyle.font16WhiteRegularOpacity87,
-      displaySmall: AppTextStyle.font16WhiteRegularOpacity44),
+    displayLarge: AppTextStyle.font24WhiteBoldOpacity87,
+    displayMedium: AppTextStyle.font16WhiteRegularOpacity87,
+    displaySmall: AppTextStyle.font16WhiteRegularOpacity44,
+  ),
+  floatingActionButtonTheme: FloatingActionButtonThemeData(
+    backgroundColor: AppColors.primary,
+    foregroundColor: Colors.white,
+  ),
   colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
   useMaterial3: true,
 );
 
-
 ThemeData appThemeDark = ThemeData(
   primaryColor: AppColors.primary,
   scaffoldBackgroundColor: AppColors.background,
-  appBarTheme:
-      AppBarTheme(backgroundColor: AppColors.background, centerTitle: true),
+  appBarTheme: AppBarTheme(
+    backgroundColor: AppColors.background,
+    centerTitle: true,
+    iconTheme: const IconThemeData(color: Colors.white), 
+  ),
   textTheme: TextTheme(
-      displayLarge: AppTextStyle.font24WhiteBoldOpacity87,
-      displayMedium: AppTextStyle.font16WhiteRegularOpacity87,
-      displaySmall: AppTextStyle.font16WhiteRegularOpacity44),
+    displayLarge: AppTextStyle.font24WhiteBoldOpacity87,
+    displayMedium: AppTextStyle.font16WhiteRegularOpacity87,
+    displaySmall: AppTextStyle.font16WhiteRegularOpacity44,
+  ),
+  floatingActionButtonTheme: FloatingActionButtonThemeData(
+    backgroundColor: AppColors.primary,
+    foregroundColor: Colors.white,
+  ),
   colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
   useMaterial3: true,
 );

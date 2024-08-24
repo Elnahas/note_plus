@@ -2,8 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:note_plus/core/helpers/app_string.dart';
 import 'package:note_plus/core/routing/app_router.dart';
-
+import '../core/helpers/constants.dart';
 import '../core/routing/routes.dart';
+import '../core/theming/theme.dart';
 
 class MyApp extends StatelessWidget {
   final AppRouter appRouter;
@@ -19,14 +20,27 @@ class MyApp extends StatelessWidget {
           return MaterialApp(
             debugShowCheckedModeBanner: false,
             title: AppString.appName,
-            theme: ThemeData(
-              colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
-              useMaterial3: true,
-            ),
+            theme: appThemeLight,
+            darkTheme: appThemeDark,
+            themeMode: ThemeMode.dark,
             onGenerateRoute: appRouter.onGenerateRoute,
-            initialRoute: Routes.onBoarding,
+            initialRoute: getInitialRoute(),
             // home: const Scaffold(body: Center(child: Text('Hello World')),),
           );
         });
+  }
+
+  // This widget is the root of your application.
+  String getInitialRoute() {
+    // if (isLoggedInUser) {
+    //   return Routes.home;
+    // }
+
+    if (!isSeenOnboarding) {
+        return Routes.onBoarding;
+
+    }
+
+    return Routes.home;
   }
 }

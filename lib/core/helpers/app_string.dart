@@ -20,7 +20,7 @@ class AppString {
   static const String addTask = "Add Task";
   static const String title = "Title";
   static const String enterTitleHere = "Enter title here";
-  static const String note = "note";
+  static const String note = "Note";
   static const String enterNoteHere = "Enter note here";
   static const String date = "Date";
   static const String startTime = "Start Time";

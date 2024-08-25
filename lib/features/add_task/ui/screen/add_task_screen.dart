@@ -15,8 +15,9 @@ class AddTaskScreen extends StatefulWidget {
 }
 
 class _AddTaskScreenState extends State<AddTaskScreen> {
-
   DateTime currentDate = DateTime.now();
+  DateTime startTime = DateTime.now();
+  DateTime endTime = DateTime.now().add(const Duration(minutes: 45));
 
   @override
   Widget build(BuildContext context) {
@@ -40,48 +41,115 @@ class _AddTaskScreenState extends State<AddTaskScreen> {
       ),
       body: Container(
         margin: const EdgeInsets.symmetric(horizontal: 24),
-        child: Column(
-          children: [
-            verticalSpace(48),
-            AppTextFormField(
-              labelText: AppString.title,
-              hintText: AppString.enterTitleHere,
-              validator: (p0) {},
-            ),
-            verticalSpace(24),
-            AppTextFormField(
-              labelText: AppString.note,
-              hintText: AppString.enterNoteHere,
-              validator: (p0) {},
-            ),
-            verticalSpace(24),
-            AppTextFormField(
-              readOnly: true,
-              labelText: AppString.date,
-              hintText: DateFormat.yMd().format(currentDate),
-              suffixIcon: IconButton(
-                  onPressed: () async {
-                    var pickedDate =await showDatePicker(
-                      context: context,
-                      firstDate: DateTime.now(),
-                      lastDate: DateTime.now().add(const Duration(days: 30)),
-                      initialDate: currentDate,
-                      initialDatePickerMode: DatePickerMode.day,
-                    );
+        child: SingleChildScrollView(
+          child: Column(
+            children: [
+              verticalSpace(48),
+              AppTextFormField(
+                labelText: AppString.title,
+                hintText: AppString.enterTitleHere,
+                validator: (p0) {},
+              ),
+              verticalSpace(24),
+              AppTextFormField(
+                labelText: AppString.note,
+                hintText: AppString.enterNoteHere,
+                validator: (p0) {},
+              ),
+              verticalSpace(24),
+              AppTextFormField(
+                readOnly: true,
+                labelText: AppString.date,
+                hintText: DateFormat.yMd().format(currentDate),
+                suffixIcon: IconButton(
+                    onPressed: () async {
+                      var pickedDate = await showDatePicker(
+                        context: context,
+                        firstDate: DateTime.now(),
+                        lastDate: DateTime.now().add(const Duration(days: 30)),
+                        initialDate: currentDate,
+                        initialDatePickerMode: DatePickerMode.day,
+                      );
 
-                    if (pickedDate != null) {
-                      setState(() {
-                        currentDate = pickedDate;
-                      });
-                    }
-                  },
-                  icon: const Icon(
-                    Icons.calendar_month,
-                    color: Colors.white,
-                  )),
-              validator: (p0) {},
-            ),
-          ],
+                      if (pickedDate != null) {
+                        setState(() {
+                          currentDate = pickedDate;
+                        });
+                      }
+                    },
+                    icon: const Icon(
+                      Icons.calendar_month,
+                      color: Colors.white,
+                    )),
+                validator: (p0) {},
+              ),
+              verticalSpace(24),
+              Row(
+                children: [
+                  Expanded(
+                    child: AppTextFormField(
+                      readOnly: true,
+                      labelText: AppString.startTime,
+                      hintText: DateFormat("hh:mm a").format(startTime),
+                      suffixIcon: IconButton(
+                          onPressed: () async {
+                            var timePicked = await showTimePicker(
+                                context: context, initialTime: TimeOfDay.now());
+
+                            if (timePicked != null) {
+                              setState(() {
+                                startTime = DateTime(
+                                  currentDate.year,
+                                  currentDate.month,
+                                  currentDate.day,
+                                  timePicked.hour,
+                                  timePicked.minute,
+                                );
+                              });
+                            }
+                          },
+                          icon: const Icon(
+                            Icons.timer_sharp,
+                            color: Colors.white,
+                          )),
+                      validator: (p0) {},
+                    ),
+                  ),
+                  horizontalSpace(27),
+                  Expanded(
+                    child: AppTextFormField(
+                      readOnly: true,
+                      labelText: AppString.endTime,
+                      hintText: DateFormat("hh:mm a")
+                          .format(endTime),
+                      suffixIcon: IconButton(
+                          onPressed: () async {
+                            var timePicked = await showTimePicker(
+                                context: context, initialTime: TimeOfDay.now());
+
+                            if (timePicked != null) {
+                              setState(() {
+                                endTime = DateTime(
+                                  currentDate.year,
+                                  currentDate.month,
+                                  currentDate.day,
+                                  timePicked.hour,
+                                  timePicked.minute,
+                                );
+                              });
+                            }
+                          },
+                          icon: const Icon(
+                            Icons.timer_sharp,
+                            color: Colors.white,
+                          )),
+                      validator: (p0) {},
+                    ),
+                  ),
+                ],
+              )
+            ],
+          ),
         ),
       ),
     );

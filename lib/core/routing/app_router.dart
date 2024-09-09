@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:note_plus/core/routing/routes.dart';
+import 'package:note_plus/features/add_task/logic/add_task_cubit.dart';
 import 'package:note_plus/features/add_task/ui/screen/add_task_screen.dart';
 import 'package:note_plus/features/home/ui/screen/home_screen.dart';
 
@@ -25,7 +26,10 @@ class AppRouter {
 
       case Routes.addTask:
         return MaterialPageRoute(
-          builder: (context) => const AddTaskScreen(),
+          builder: (context) => BlocProvider(
+            create: (context) => AddTaskCubit(),
+            child: const AddTaskScreen(),
+          ),
         );
 
       default:

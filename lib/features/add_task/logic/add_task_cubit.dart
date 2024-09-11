@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:hive_flutter/hive_flutter.dart';
+import 'package:note_plus/core/data/task_model.dart';
 
+import '../../../core/helpers/constants.dart';
 import '../../../core/theming/app_colors.dart';
 
 part 'add_task_state.dart';
@@ -35,8 +38,8 @@ class AddTaskCubit extends Cubit<AddTaskState> {
     );
 
     if (pickedDate != null) {
-        currentDate = pickedDate;
-        emit(GetDateSuccessState());
+      currentDate = pickedDate;
+      emit(GetDateSuccessState());
     }
   }
 
@@ -59,7 +62,7 @@ class AddTaskCubit extends Cubit<AddTaskState> {
     }
   }
 
-    void getEndTimePicker(context) async {
+  void getEndTimePicker(context) async {
     var pickedTime = await showTimePicker(
       context: context,
       initialTime: TimeOfDay.now(),
@@ -81,4 +84,25 @@ class AddTaskCubit extends Cubit<AddTaskState> {
     selectedColorIndex = index;
     emit(ChangeColorIndexSuccessState());
   }
+
+  addTask(TaskModel taskModel) async {
+    emit(AddTaskLoadingState());
+
+    try {
+      var noteBox = Hive.box<TaskModel>(kNotesBox);
+      await noteBox.add(taskModel);
+      emit(AddTaskSuccessState());
+    } catch (e) {
+      emit(AddTaskErrorState(e.toString()));
+    }
+  }
+
+  //get List Task
+  List<TaskModel> getTaskList() {
+    var noteBox = Hive.box<TaskModel>(kNotesBox);
+    return noteBox.values.toList();
+  }
+
+
+
 }

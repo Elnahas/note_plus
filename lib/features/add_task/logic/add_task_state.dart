@@ -20,3 +20,12 @@ final class EndTimeErrorState extends AddTaskState {}
 final class ChangeColorIndexLoadingState extends AddTaskState {}
 final class ChangeColorIndexSuccessState extends AddTaskState {}
 final class ChangeColorIndexErrorState extends AddTaskState {}
+
+
+final class AddTaskLoadingState extends AddTaskState {}
+final class AddTaskSuccessState extends AddTaskState {}
+final class AddTaskErrorState extends AddTaskState {
+  final String err;
+
+  AddTaskErrorState(this.err);
+}

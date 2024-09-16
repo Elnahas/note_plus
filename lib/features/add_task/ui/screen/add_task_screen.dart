@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:note_plus/core/helpers/app_string.dart';
 import 'package:note_plus/core/helpers/extentions.dart';
 import 'package:note_plus/core/helpers/spacing.dart';
@@ -11,6 +12,7 @@ import 'package:note_plus/features/add_task/logic/add_task_cubit.dart';
 
 import '../../../../core/data/task_model.dart';
 import '../../../../core/helpers/constants.dart';
+import '../../../../core/routing/routes.dart';
 
 class AddTaskScreen extends StatelessWidget {
   const AddTaskScreen({super.key});
@@ -86,9 +88,7 @@ class AddTaskScreen extends StatelessWidget {
                             Icons.calendar_month,
                             color: Colors.white,
                           )),
-                      validator: (p0) {
-                     
-                      },
+                      validator: (p0) {},
                     );
                   },
                 ),
@@ -193,6 +193,24 @@ class AddTaskScreen extends StatelessWidget {
                       ));
                     }
                   },
+                ),
+                BlocListener<AddTaskCubit, AddTaskState>(
+                  listenWhen: (previous, current) =>
+                      current is AddTaskSuccessState,
+                  listener: (context, state) {
+                    context.pushNamedAndRemoveUntil(Routes.home,
+                        predicate: (route) => true);
+
+                    Fluttertoast.showToast(
+                        msg: "Task created successfully",
+                        toastLength: Toast.LENGTH_SHORT,
+                        gravity: ToastGravity.BOTTOM,
+                        timeInSecForIosWeb: 1,
+                        backgroundColor: Colors.black,
+                        textColor: Colors.white,
+                        fontSize: 16.0);
+                  },
+                  child: const SizedBox.shrink(),
                 )
               ],
             ),

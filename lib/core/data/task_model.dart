@@ -31,28 +31,5 @@ class TaskModel {
     required this.color,
   });
 
-  //Dumy data
 
-  static List<TaskModel> taskList = [
-    TaskModel(
-      id: '1',
-      title: 'Task 1',
-      note: 'Note 1',
-      date: '2022-01-01',
-      startTime: '09:00 AM',
-      endTime: '10:00 AM',
-      isCompleted: false,
-      color: 1
-    ),
-    TaskModel(
-      id: '2', 
-      title: 'Task 2',
-      note: 'Note 2',
-      date: '2022-01-02',
-      startTime: '10:00 AM',
-      endTime: '11:00 AM',
-      isCompleted: true,
-      color: 1
-    ),
-  ];
 }

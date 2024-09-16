@@ -15,6 +15,11 @@ class AddTaskCubit extends Cubit<AddTaskState> {
   DateTime startTime = DateTime.now();
   DateTime endTime = DateTime.now().add(const Duration(minutes: 45));
 
+  GlobalKey<FormState> formKey = GlobalKey<FormState>();
+
+  TextEditingController titleController = TextEditingController();
+  TextEditingController noteController = TextEditingController();
+
   //List of colors
   List<Color> colors = [
     AppColors.red,
@@ -91,18 +96,19 @@ class AddTaskCubit extends Cubit<AddTaskState> {
     try {
       var noteBox = Hive.box<TaskModel>(kNotesBox);
       await noteBox.add(taskModel);
-      emit(AddTaskSuccessState());
+      emit(AddTaskSuccessState());      
     } catch (e) {
       emit(AddTaskErrorState(e.toString()));
     }
   }
 
-  //get List Task
-  List<TaskModel> getTaskList() {
-    var noteBox = Hive.box<TaskModel>(kNotesBox);
-    return noteBox.values.toList();
-  }
 
+
+  //Getters
+
+  List<TaskModel> getTasks() {
+    return Hive.box<TaskModel>(kNotesBox).values.toList();
+  }
 
 
 }

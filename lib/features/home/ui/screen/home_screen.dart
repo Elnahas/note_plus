@@ -1,12 +1,16 @@
 import 'package:date_picker_timeline/date_picker_timeline.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:intl/intl.dart';
 import 'package:note_plus/core/helpers/app_string.dart';
 import 'package:note_plus/core/helpers/extentions.dart';
 import 'package:note_plus/core/helpers/spacing.dart';
 import 'package:note_plus/core/routing/routes.dart';
+import 'package:note_plus/features/home/logic/cubit/home_cubit.dart';
+import '../../../../core/helpers/constants.dart';
 import '../../../../core/theming/app_colors.dart';
+import '../widgets/place_holder_empty_tasks.dart';
 import '../widgets/task_item_widget.dart';
 
 class HomeScreen extends StatelessWidget {
@@ -20,6 +24,7 @@ class HomeScreen extends StatelessWidget {
           child: const Icon(Icons.add),
           onPressed: () {
             context.pushNamed(Routes.addTask);
+            //context.read<HomeCubit>().clearAllTasks();
           }),
       body: SafeArea(
         child: Container(
@@ -48,15 +53,33 @@ class HomeScreen extends StatelessWidget {
                 dateTextStyle: Theme.of(context).textTheme.displayMedium!,
                 monthTextStyle: Theme.of(context).textTheme.displayMedium!,
                 onDateChange: (date) {
-                  // New date selected
-                  // setState(() {
-                  //   _selectedValue = date;
-                  // });
+                  String formattedDate = getFormattedDate(date);
+
+                  context
+                      .read<HomeCubit>()
+                      .getTasksForSelectedDate(formattedDate);
                 },
               ),
               verticalSpace(70),
-              TaskItemWidget()
-              //const PlaceHolderEmptyTasks()
+              BlocBuilder<HomeCubit, HomeState>(
+                buildWhen: (previous, current) =>
+                    current is GetTaskSuccessState,
+                builder: (context, state) {
+                  if (state is GetTaskSuccessState) {
+                    return Expanded(
+                      child: ListView.builder(
+                        itemCount: state.tasks.length,
+                        itemBuilder: (context, index) {
+                          final task = state.tasks[index];
+                          return TaskItemWidget(taskModel: task);
+                        },
+                      ),
+                    );
+                  } else {
+                    return const PlaceHolderEmptyTasks();
+                  }
+                },
+              ),
             ],
           ),
         ),
@@ -64,4 +87,3 @@ class HomeScreen extends StatelessWidget {
     );
   }
 }
-

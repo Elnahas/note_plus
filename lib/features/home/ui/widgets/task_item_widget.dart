@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:intl/intl.dart';
+import 'package:note_plus/core/data/task_model.dart';
 import 'package:note_plus/core/helpers/app_string.dart';
 import 'package:note_plus/core/helpers/extentions.dart';
 import 'package:note_plus/core/helpers/spacing.dart';
@@ -9,15 +9,13 @@ import 'package:note_plus/core/widgets/app_elevated_button.dart';
 import '../../../../core/theming/app_colors.dart';
 
 class TaskItemWidget extends StatelessWidget {
-  const TaskItemWidget({super.key});
+  final TaskModel taskModel;
+  const TaskItemWidget({super.key, required this.taskModel});
 
   @override
   Widget build(BuildContext context) {
-    DateTime startTime = DateTime.now();
-    DateTime endTime = startTime.add(const Duration(minutes: 15));
-
     String formattedTime =
-        '${DateFormat('hh:mm a').format(startTime)} - ${DateFormat('hh:mm a').format(endTime)}';
+        '${taskModel.startTime} - ${taskModel.endTime}';
 
     return GestureDetector(
       onTap: (){
@@ -28,6 +26,7 @@ class TaskItemWidget extends StatelessWidget {
             color: AppColors.deepGray,
             child:  Column(
               children: [
+                
                 AppElevatedButton(buttonText: AppString.taskCompleted.toUpperCase(), onPressed: (){}, height: 48.h,),
                 verticalSpace(24),
                 AppElevatedButton(buttonText: AppString.deleteTask.toUpperCase(),backgroundColor: AppColors.redLight, onPressed: (){},height: 48.h,),
@@ -41,12 +40,13 @@ class TaskItemWidget extends StatelessWidget {
         });
       },
       child: Container(
+        margin: const EdgeInsets.symmetric(vertical: 8),
         padding: const EdgeInsets.all(8),
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(16),
-          color: AppColors.red,
+          color: Color(taskModel.color),
         ),
-        height: 128,
+        height: 135,
         child: Row(
           children: [
             Expanded(
@@ -54,7 +54,7 @@ class TaskItemWidget extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    "Task1",
+                    taskModel.title,
                     style: Theme.of(context).textTheme.displayLarge,
                   ),
                   ListTile(
@@ -66,7 +66,7 @@ class TaskItemWidget extends StatelessWidget {
                     contentPadding: EdgeInsets.zero,
                   ),
                   Text(
-                    "Learn Dart",
+                    taskModel.note,
                     style: Theme.of(context).textTheme.displayMedium,
                   ),
                 ],

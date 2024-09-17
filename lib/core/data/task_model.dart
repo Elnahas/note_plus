@@ -2,7 +2,7 @@ import 'package:hive/hive.dart';
 part 'task_model.g.dart';
 
 @HiveType(typeId: 0)
-class TaskModel {
+class TaskModel  extends HiveObject  {
   @HiveField(0)
   final String id;
   @HiveField(1)
@@ -16,7 +16,7 @@ class TaskModel {
   @HiveField(5)
   final String endTime;
   @HiveField(6)
-  final bool isCompleted;
+   bool isCompleted;
   @HiveField(7)
   final int color;
 

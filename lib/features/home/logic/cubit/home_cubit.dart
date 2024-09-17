@@ -20,20 +20,46 @@ class HomeCubit extends Cubit<HomeState> {
     }
   }
 
-    getTasksForSelectedDate(String selectedDate) {
+  getTasksForSelectedDate(String selectedDate) {
     emit(GetTaskLoadingState());
     try {
       var noteBox = Hive.box<TaskModel>(kNotesBox);
-      var tasks = noteBox.values.where((task) => task.date == selectedDate).toList();
+      var tasks =
+          noteBox.values.where((task) => task.date == selectedDate).toList();
       emit(GetTaskSuccessState(tasks));
     } catch (e) {
       emit(GetTaskErrorState(e.toString()));
     }
   }
 
+  updateTaskCompletion(TaskModel taskModel) async {
+    try {
+      var noteBox = Hive.box<TaskModel>(kNotesBox);
+
+      taskModel.isCompleted = true;
+      taskModel.save();
+
+      var tasks =
+          noteBox.values.where((task) => task.date == taskModel.date).toList();
+
+      emit(GetTaskSuccessState(tasks));
+    } catch (e) {
+      emit(GetTaskErrorState(e.toString()));
+    }
+  }
+
+  deleteTask(TaskModel taskModel) async {
+    var noteBox = Hive.box<TaskModel>(kNotesBox);
+    await taskModel.delete();
+
+    var tasks =
+        noteBox.values.where((task) => task.date == taskModel.date).toList();
+
+    emit(GetTaskSuccessState(tasks));
+  }
 
   clearAllTasks() async {
-      var noteBox = Hive.box<TaskModel>(kNotesBox);
-      await noteBox.clear();  
+    var noteBox = Hive.box<TaskModel>(kNotesBox);
+    await noteBox.clear();
   }
 }

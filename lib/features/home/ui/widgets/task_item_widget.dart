@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:note_plus/core/data/task_model.dart';
 import 'package:note_plus/core/helpers/app_string.dart';
@@ -7,6 +8,7 @@ import 'package:note_plus/core/helpers/spacing.dart';
 import 'package:note_plus/core/widgets/app_elevated_button.dart';
 
 import '../../../../core/theming/app_colors.dart';
+import '../../logic/cubit/home_cubit.dart';
 
 class TaskItemWidget extends StatelessWidget {
   final TaskModel taskModel;
@@ -19,7 +21,7 @@ class TaskItemWidget extends StatelessWidget {
 
     return GestureDetector(
       onTap: (){
-        showModalBottomSheet(context: context, builder: (context) {
+        showModalBottomSheet(context: context, builder: (_) {
           return Container(
             padding: const EdgeInsets.all(24),
             height: 240.h,
@@ -27,9 +29,17 @@ class TaskItemWidget extends StatelessWidget {
             child:  Column(
               children: [
                 
-                AppElevatedButton(buttonText: AppString.taskCompleted.toUpperCase(), onPressed: (){}, height: 48.h,),
+                AppElevatedButton(buttonText: AppString.taskCompleted.toUpperCase(), onPressed: (){
+                  BlocProvider.of<HomeCubit>(context).updateTaskCompletion(taskModel);
+                  context.pop();
+                  
+                  //context.read<HomeCubit>().updateTaskCompletion(taskModel.id);
+                }, height: 48.h,),
                 verticalSpace(24),
-                AppElevatedButton(buttonText: AppString.deleteTask.toUpperCase(),backgroundColor: AppColors.redLight, onPressed: (){},height: 48.h,),
+                AppElevatedButton(buttonText: AppString.deleteTask.toUpperCase(),backgroundColor: AppColors.redLight, onPressed: (){
+                                    BlocProvider.of<HomeCubit>(context).deleteTask(taskModel);
+                  context.pop();
+                },height: 48.h,),
                 verticalSpace(24),
                 AppElevatedButton(buttonText: AppString.cancel.toUpperCase(), onPressed: (){
                   context.pop();
@@ -54,7 +64,7 @@ class TaskItemWidget extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    taskModel.title,
+                    taskModel.title + taskModel.id,
                     style: Theme.of(context).textTheme.displayLarge,
                   ),
                   ListTile(
@@ -82,6 +92,7 @@ class TaskItemWidget extends StatelessWidget {
             RotatedBox(
               quarterTurns: 3,
               child: Text(
+                taskModel.isCompleted ? "DONE" :
                 "TODO",
                 style: Theme.of(context).textTheme.displayMedium,
               ),

@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:note_plus/app/app_cubit.dart';
 import 'package:note_plus/core/helpers/app_string.dart';
 import 'package:note_plus/core/routing/app_router.dart';
 import '../core/helpers/constants.dart';
@@ -12,22 +14,31 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ScreenUtilInit(
-        designSize: const Size(375, 812),
-        minTextAdapt: true,
-        splitScreenMode: true,
-        builder: (context, child) {
-          return MaterialApp(
-            debugShowCheckedModeBanner: false,
-            title: AppString.appName,
-            theme: appThemeLight,
-            darkTheme: appThemeDark,
-            themeMode: ThemeMode.dark,
-            onGenerateRoute: appRouter.onGenerateRoute,
-            initialRoute: getInitialRoute(),
-            // home: const Scaffold(body: Center(child: Text('Hello World')),),
-          );
-        });
+    return BlocProvider(
+      create: (context) => AppCubit()..getThem(),
+      child: ScreenUtilInit(
+          designSize: const Size(375, 812),
+          minTextAdapt: true,
+          splitScreenMode: true,
+          builder: (context, child) {
+            return BlocBuilder<AppCubit, AppState>(
+              builder: (context, state) {
+                return MaterialApp(
+                  debugShowCheckedModeBanner: false,
+                  title: AppString.appName,
+                  theme: appThemeLight,
+                  darkTheme: appThemeDark,
+                  themeMode: context.read<AppCubit>().isDark
+                      ? ThemeMode.dark
+                      : ThemeMode.light,
+                  onGenerateRoute: appRouter.onGenerateRoute,
+                  initialRoute: getInitialRoute(),
+                  // home: const Scaffold(body: Center(child: Text('Hello World')),),
+                );
+              },
+            );
+          }),
+    );
   }
 
   // This widget is the root of your application.
@@ -37,8 +48,7 @@ class MyApp extends StatelessWidget {
     // }
 
     if (!isSeenOnboarding) {
-        return Routes.onBoarding;
-
+      return Routes.onBoarding;
     }
 
     return Routes.home;

@@ -4,16 +4,16 @@ import 'package:note_plus/core/theming/app_text_styles.dart';
 
 ThemeData appThemeLight = ThemeData(
   primaryColor: AppColors.primary,
-  scaffoldBackgroundColor: AppColors.background,
+  scaffoldBackgroundColor: Colors.white,
   appBarTheme: AppBarTheme(
-    backgroundColor: AppColors.background,
+    backgroundColor: Colors.white,
     centerTitle: true,
     iconTheme: const IconThemeData(color: Colors.black), 
   ),
   textTheme: TextTheme(
-    displayLarge: AppTextStyle.font24WhiteBoldOpacity87,
-    displayMedium: AppTextStyle.font16WhiteRegularOpacity87,
-    displaySmall: AppTextStyle.font16WhiteRegularOpacity44,
+    displayLarge: AppTextStyle.font24WhiteBoldOpacity87.copyWith(color: Colors.black),
+    displayMedium: AppTextStyle.font16WhiteRegularOpacity87.copyWith(color: Colors.black),
+    displaySmall: AppTextStyle.font16WhiteRegularOpacity44.copyWith(color: Colors.black),
   ),
   floatingActionButtonTheme: FloatingActionButtonThemeData(
     backgroundColor: AppColors.primary,

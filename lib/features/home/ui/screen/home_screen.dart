@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:intl/intl.dart';
+import 'package:note_plus/app/app_cubit.dart';
 import 'package:note_plus/core/helpers/app_string.dart';
 import 'package:note_plus/core/helpers/extentions.dart';
 import 'package:note_plus/core/helpers/spacing.dart';
@@ -32,10 +33,26 @@ class HomeScreen extends StatelessWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
+
+              Row(
+                children: [
               Text(
                 DateFormat.yMMMMd().format(DateTime.now()),
                 style: Theme.of(context).textTheme.displayLarge,
               ),
+              const Spacer() ,
+              IconButton(
+                onPressed: () {
+                   context.read<AppCubit>().changeThem();
+                },
+                icon: Icon(
+                  Icons.mode_night,
+                  color: context.read<AppCubit>().isDark ? Colors.white : Colors.black,
+                ),
+              ),
+                ],
+              ),
+
               verticalSpace(12),
               Text(
                 AppString.today,
@@ -66,7 +83,6 @@ class HomeScreen extends StatelessWidget {
                     current is GetTaskSuccessState || current is EmptyPlaceHolderState,
                 builder: (context, state) {
                   if (state is GetTaskSuccessState) {
-                    print("Updaed ${context.read<HomeCubit>().allTasks.length }");
                     return Expanded(
                       child: AnimatedList(
                         key: context.read<HomeCubit>().listKey,

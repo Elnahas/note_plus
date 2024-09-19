@@ -16,3 +16,6 @@ final class GetTaskErrorState extends HomeState {
 
   GetTaskErrorState(this.err);
 }
+
+//Empty State
+  final class EmptyPlaceHolderState extends HomeState {}

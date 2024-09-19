@@ -63,17 +63,35 @@ class HomeScreen extends StatelessWidget {
               verticalSpace(70),
               BlocBuilder<HomeCubit, HomeState>(
                 buildWhen: (previous, current) =>
-                    current is GetTaskSuccessState,
+                    current is GetTaskSuccessState || current is EmptyPlaceHolderState,
                 builder: (context, state) {
                   if (state is GetTaskSuccessState) {
+                    print("Updaed ${context.read<HomeCubit>().allTasks.length }");
                     return Expanded(
-                      child: ListView.builder(
-                        itemCount: state.tasks.length,
-                        itemBuilder: (context, index) {
-                          final task = state.tasks[index];
-                          return TaskItemWidget(taskModel: task);
+                      child: AnimatedList(
+                        key: context.read<HomeCubit>().listKey,
+                        initialItemCount: context.read<HomeCubit>().allTasks.length ,
+                        itemBuilder: (context, index, animation) {
+                          final task = context.read<HomeCubit>().allTasks[index];
+                          return SizeTransition(
+                            sizeFactor: animation,
+                            child: TaskItemWidget(
+                              taskModel: task,
+                              index: index,
+                            ),
+                          );
                         },
                       ),
+
+                      // child: ListView.builder(
+                      //   itemCount: state.tasks.length,
+                      //   itemBuilder: (context, index) {
+                      //     final task = state.tasks[index];
+                      //     return TaskItemWidget(taskModel: task);
+                      //   },
+                      // ),
+
+
                     );
                   } else {
                     return const PlaceHolderEmptyTasks();

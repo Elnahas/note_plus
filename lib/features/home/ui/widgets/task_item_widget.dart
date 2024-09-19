@@ -12,7 +12,8 @@ import '../../logic/cubit/home_cubit.dart';
 
 class TaskItemWidget extends StatelessWidget {
   final TaskModel taskModel;
-  const TaskItemWidget({super.key, required this.taskModel});
+  final int index ;
+  const TaskItemWidget({super.key, required this.taskModel, required this.index});
 
   @override
   Widget build(BuildContext context) {
@@ -37,7 +38,7 @@ class TaskItemWidget extends StatelessWidget {
                 }, height: 48.h,),
                 verticalSpace(24),
                 AppElevatedButton(buttonText: AppString.deleteTask.toUpperCase(),backgroundColor: AppColors.redLight, onPressed: (){
-                                    BlocProvider.of<HomeCubit>(context).deleteTask(taskModel);
+                                    BlocProvider.of<HomeCubit>(context).deleteTask(index);
                   context.pop();
                 },height: 48.h,),
                 verticalSpace(24),
@@ -64,7 +65,7 @@ class TaskItemWidget extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    taskModel.title + taskModel.id,
+                    taskModel.title,
                     style: Theme.of(context).textTheme.displayLarge,
                   ),
                   ListTile(

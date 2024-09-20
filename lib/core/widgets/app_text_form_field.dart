@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:note_plus/core/helpers/extentions.dart';
+import '../../app/app_cubit.dart';
 import '../helpers/spacing.dart';
 import '../theming/app_colors.dart';
 import 'app_label_text.dart';
@@ -102,7 +104,9 @@ class AppTextFormField extends StatelessWidget {
               suffixIcon: suffixIcon,
               prefixIcon: prefixIcon,
               filled: true,
-              fillColor: backgroundColor ?? AppColors.dark),
+              fillColor:backgroundColor ?? (context.read<AppCubit>().isDark ? AppColors.dark : Colors.white),
+              
+              ),
           obscureText: isObscureText ?? false,
           style: Theme.of(context).textTheme.displayMedium,
           validator: (value) {

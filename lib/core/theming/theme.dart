@@ -5,10 +5,10 @@ import 'package:note_plus/core/theming/app_text_styles.dart';
 ThemeData appThemeLight = ThemeData(
   primaryColor: AppColors.primary,
   scaffoldBackgroundColor: Colors.white,
-  appBarTheme: AppBarTheme(
+  appBarTheme: const AppBarTheme(
     backgroundColor: Colors.white,
     centerTitle: true,
-    iconTheme: const IconThemeData(color: Colors.black), 
+    iconTheme:  IconThemeData(color: Colors.black), 
   ),
   textTheme: TextTheme(
     displayLarge: AppTextStyle.font24WhiteBoldOpacity87.copyWith(color: Colors.black),

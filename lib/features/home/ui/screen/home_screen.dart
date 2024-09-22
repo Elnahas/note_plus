@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:date_picker_timeline/date_picker_timeline.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -10,12 +12,33 @@ import 'package:note_plus/core/helpers/spacing.dart';
 import 'package:note_plus/core/routing/routes.dart';
 import 'package:note_plus/features/home/logic/cubit/home_cubit.dart';
 import '../../../../core/helpers/constants.dart';
+import '../../../../core/service/local_notification_service.dart';
 import '../../../../core/theming/app_colors.dart';
 import '../widgets/place_holder_empty_tasks.dart';
 import '../widgets/task_item_widget.dart';
 
-class HomeScreen extends StatelessWidget {
+class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
+
+  @override
+  State<HomeScreen> createState() => _HomeScreenState();
+}
+
+class _HomeScreenState extends State<HomeScreen> {
+
+  @override
+  void initState() {
+    
+    super.initState();
+    //listToNotificationStream();
+  }
+  void listToNotificationStream() {
+
+    LocalNotificationService.streamController.stream.listen((event) {
+      print(event.payload);
+    });
+
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -25,6 +48,8 @@ class HomeScreen extends StatelessWidget {
           child: const Icon(Icons.add),
           onPressed: () {
             context.pushNamed(Routes.addTask);
+    //LocalNotificationService.showScheduledNotification(); 
+
             //context.read<HomeCubit>().clearAllTasks();
           }),
       body: SafeArea(
@@ -44,6 +69,7 @@ class HomeScreen extends StatelessWidget {
               IconButton(
                 onPressed: () {
                    context.read<AppCubit>().changeThem();
+                   //LocalNotificationService.cancelNotification(); 
                 },
                 icon: Icon(
                   Icons.mode_night,

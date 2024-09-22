@@ -5,6 +5,7 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'package:note_plus/core/helpers/app_string.dart';
 import 'package:note_plus/core/helpers/extentions.dart';
 import 'package:note_plus/core/helpers/spacing.dart';
+import 'package:note_plus/core/service/local_notification_service.dart';
 import 'package:note_plus/core/widgets/app_elevated_button.dart';
 import 'package:note_plus/core/widgets/app_label_text.dart';
 import 'package:note_plus/core/widgets/app_text_form_field.dart';
@@ -182,7 +183,7 @@ class AddTaskScreen extends StatelessWidget {
                   onPressed: () {
                     if (_cubit.formKey.currentState!.validate()) {
                       _cubit.addTask(TaskModel(
-                        id: "${_cubit.getTasks().length + 1}",
+                        id: _cubit.getTasks().length + 1,
                         title: _cubit.titleController.text,
                         note: _cubit.noteController.text,
                         date: getFormattedDate(_cubit.currentDate),
@@ -198,17 +199,27 @@ class AddTaskScreen extends StatelessWidget {
                   listenWhen: (previous, current) =>
                       current is AddTaskSuccessState,
                   listener: (context, state) {
-                    context.pushNamedAndRemoveUntil(Routes.home,
-                        predicate: (route) => true);
+                    if (state is AddTaskSuccessState) {
+                      final taskModel = state.taskModel;
 
-                    Fluttertoast.showToast(
-                        msg: "Task created successfully",
-                        toastLength: Toast.LENGTH_SHORT,
-                        gravity: ToastGravity.BOTTOM,
-                        timeInSecForIosWeb: 1,
-                        backgroundColor: Colors.black,
-                        textColor: Colors.white,
-                        fontSize: 16.0);
+                      LocalNotificationService.showTaskNotification(
+                          currentDate: _cubit.currentDate,
+                          scheduledTime: TimeOfDay(
+                              hour: _cubit.startTime.hour,
+                              minute: _cubit.startTime.minute),
+                          taskModel: taskModel);
+                      context.pushNamedAndRemoveUntil(Routes.home,
+                          predicate: (route) => true);
+
+                      Fluttertoast.showToast(
+                          msg: "Task created successfully",
+                          toastLength: Toast.LENGTH_SHORT,
+                          gravity: ToastGravity.BOTTOM,
+                          timeInSecForIosWeb: 1,
+                          backgroundColor: Colors.black,
+                          textColor: Colors.white,
+                          fontSize: 16.0);
+                    }
                   },
                   child: const SizedBox.shrink(),
                 )

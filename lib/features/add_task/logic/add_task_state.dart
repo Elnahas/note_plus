@@ -23,7 +23,11 @@ final class ChangeColorIndexErrorState extends AddTaskState {}
 
 
 final class AddTaskLoadingState extends AddTaskState {}
-final class AddTaskSuccessState extends AddTaskState {}
+final class AddTaskSuccessState extends AddTaskState {
+  final TaskModel taskModel;
+
+  AddTaskSuccessState({required this.taskModel});
+}
 final class AddTaskErrorState extends AddTaskState {
   final String err;
 

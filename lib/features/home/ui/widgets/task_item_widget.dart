@@ -1,52 +1,81 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:intl/intl.dart';
+import 'package:note_plus/core/data/task_model.dart';
 import 'package:note_plus/core/helpers/app_string.dart';
 import 'package:note_plus/core/helpers/extentions.dart';
 import 'package:note_plus/core/helpers/spacing.dart';
+import 'package:note_plus/core/service/local_notification_service.dart';
 import 'package:note_plus/core/widgets/app_elevated_button.dart';
 
 import '../../../../core/theming/app_colors.dart';
+import '../../logic/cubit/home_cubit.dart';
 
 class TaskItemWidget extends StatelessWidget {
-  const TaskItemWidget({super.key});
+  final TaskModel taskModel;
+  final int index;
+  const TaskItemWidget(
+      {super.key, required this.taskModel, required this.index});
 
   @override
   Widget build(BuildContext context) {
-    DateTime startTime = DateTime.now();
-    DateTime endTime = startTime.add(const Duration(minutes: 15));
-
-    String formattedTime =
-        '${DateFormat('hh:mm a').format(startTime)} - ${DateFormat('hh:mm a').format(endTime)}';
+    String formattedTime = '${taskModel.startTime} - ${taskModel.endTime}';
 
     return GestureDetector(
-      onTap: (){
-        showModalBottomSheet(context: context, builder: (context) {
-          return Container(
-            padding: const EdgeInsets.all(24),
-            height: 240.h,
-            color: AppColors.deepGray,
-            child:  Column(
-              children: [
-                AppElevatedButton(buttonText: AppString.taskCompleted.toUpperCase(), onPressed: (){}, height: 48.h,),
-                verticalSpace(24),
-                AppElevatedButton(buttonText: AppString.deleteTask.toUpperCase(),backgroundColor: AppColors.redLight, onPressed: (){},height: 48.h,),
-                verticalSpace(24),
-                AppElevatedButton(buttonText: AppString.cancel.toUpperCase(), onPressed: (){
-                  context.pop();
-                },height: 48.h,),
-              ],
-            ),
-          );
-        });
+      onTap: () {
+        showModalBottomSheet(
+            context: context,
+            builder: (_) {
+              return Container(
+                padding: const EdgeInsets.all(24),
+                height: 240.h,
+                color: AppColors.deepGray,
+                child: Column(
+                  children: [
+                    AppElevatedButton(
+                      buttonText: AppString.taskCompleted.toUpperCase(),
+                      onPressed: () {
+                        BlocProvider.of<HomeCubit>(context)
+                            .updateTaskCompletion(taskModel);
+                        context.pop();
+
+                        //context.read<HomeCubit>().updateTaskCompletion(taskModel.id);
+                      },
+                      height: 48.h,
+                    ),
+                    verticalSpace(24),
+                    AppElevatedButton(
+                      buttonText: AppString.deleteTask.toUpperCase(),
+                      backgroundColor: AppColors.redLight,
+                      onPressed: () {
+                        LocalNotificationService.cancelTaskNotification(
+                            taskModel.id);
+                        BlocProvider.of<HomeCubit>(context).deleteTask(index);
+                        context.pop();
+                      },
+                      height: 48.h,
+                    ),
+                    verticalSpace(24),
+                    AppElevatedButton(
+                      buttonText: AppString.cancel.toUpperCase(),
+                      onPressed: () {
+                        context.pop();
+                      },
+                      height: 48.h,
+                    ),
+                  ],
+                ),
+              );
+            });
       },
       child: Container(
+        margin: const EdgeInsets.symmetric(vertical: 8),
         padding: const EdgeInsets.all(8),
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(16),
-          color: AppColors.red,
+          color: Color(taskModel.color),
         ),
-        height: 128,
+        height: 135,
         child: Row(
           children: [
             Expanded(
@@ -54,7 +83,7 @@ class TaskItemWidget extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    "Task1",
+                    taskModel.title,
                     style: Theme.of(context).textTheme.displayLarge,
                   ),
                   ListTile(
@@ -66,7 +95,7 @@ class TaskItemWidget extends StatelessWidget {
                     contentPadding: EdgeInsets.zero,
                   ),
                   Text(
-                    "Learn Dart",
+                    taskModel.note,
                     style: Theme.of(context).textTheme.displayMedium,
                   ),
                 ],
@@ -82,7 +111,7 @@ class TaskItemWidget extends StatelessWidget {
             RotatedBox(
               quarterTurns: 3,
               child: Text(
-                "TODO",
+                taskModel.isCompleted ? "DONE" : "TODO",
                 style: Theme.of(context).textTheme.displayMedium,
               ),
             ),

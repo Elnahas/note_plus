@@ -4,7 +4,7 @@
 <uses-permission android:name="android.permission.USE_EXACT_ALARM" />
 <uses-permission android:name="android.permission.USE_FULL_SCREEN_INTENT" />
     <application
-        android:label="note_plus"
+        android:label="Note Plus"
         android:name="${applicationName}"
         android:icon="@mipmap/ic_launcher">
         <activity
